@@ -1,0 +1,13 @@
+ratings:
+  file: ml-latest-small/ratings.csv
+  format: csv
+  entity_type: rating
+  header: true
+movies:
+  file: ml-latest-small/movies.csv
+  format: csv
+  entity_type: item
+  header: true
+  columns:
+    movieId: {name: id, type: long}
+    title: {name: name, type: string}
