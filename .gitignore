@@ -1,6 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
 /.idea
 *.iml
-/ml-latest-small
-*.csv
 /target
