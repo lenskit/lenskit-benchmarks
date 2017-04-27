@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
+@Warmup(iterations = 5)
 public class ReadCsvFile {
     private StaticDataSource source;
 
@@ -29,9 +30,18 @@ public class ReadCsvFile {
     }
 
     @Benchmark
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    public void benchLoad(Blackhole bh) {
-        bh.consume(source.get());
+    public void benchAverageRatingViewAttr(Blackhole bh) {
+        double sum = 0;
+        int n = 0;
+        DataAccessObject dao = source.get();
+        ObjectStream<Rating> stream = dao.query(Rating.class)
+                                         .stream();
+        for (Rating r: stream) {
+            sum += r.getDouble(CommonAttributes.RATING);
+            n += 1;
+        }
+
+        bh.consume(sum / n);
     }
 
     @Benchmark
